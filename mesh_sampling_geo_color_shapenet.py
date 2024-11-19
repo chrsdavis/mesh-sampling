@@ -117,6 +117,7 @@ def sample_mesh_set(input_glob, output_dir, occlusion_threshold, target_points, 
 	#Go through mesh files liste as input
 	for n, input_filepath in enumerate(mesh_files):
 		try:
+			print(f'Cur dir: {current_dir}; file path: {input_filepath}')
 			output_pc_filepath = sample_mesh(input_filepath, n, occlusion_threshold, output_dir, current_dir, target_points, resolution, remove_intermediate_files, cloudcompare_bin_path)
 			mesh_pc_correspondance["Input mesh files"].append(input_filepath)
 			mesh_pc_correspondance["Output point cloud files"].append(output_pc_filepath)
