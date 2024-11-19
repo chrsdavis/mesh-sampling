@@ -117,7 +117,6 @@ def sample_mesh_set(input_glob, output_dir, occlusion_threshold, target_points, 
 	#Go through mesh files liste as input
 	for n, input_filepath in enumerate(mesh_files):
 		try:
-			print(f'Cur dir: {current_dir}; file path: {input_filepath}')
 			output_pc_filepath = sample_mesh(input_filepath, n, occlusion_threshold, output_dir, current_dir, target_points, resolution, remove_intermediate_files, cloudcompare_bin_path)
 			mesh_pc_correspondance["Input mesh files"].append(input_filepath)
 			mesh_pc_correspondance["Output point cloud files"].append(output_pc_filepath)
@@ -142,6 +141,7 @@ def get_mesh_arrays(input_dir, input_filename, face_matrix_file, face_quality_fi
 	face_matrix = occluded_mesh.face_matrix()
 	face_quality_array = occluded_mesh.face_quality_array()
 
+	print (f"In get mesh arrays; cur dir: {input_dir}; face file: {face_matrix_file}")
 	np.save(face_matrix_file, face_matrix)
 	np.save(face_quality_file, face_quality_array)
 
@@ -155,6 +155,8 @@ def sample_mesh(input_filepath, n, occlusion_threshold, output_dir, current_dir,
 
 	face_matrix_file = "face_matrix.npy"
 	face_quality_file = "face_quality.npy"
+
+	print(f'Cur dir: {current_dir}; in dir: {input_dir}; in file: {input_filename}')
 
 	#Load mesh and compute ambiance occlusion 
 	subprocess.run(['python', '-c', f'from mesh_sampling_geo_color_shapenet import get_mesh_arrays; get_mesh_arrays(\"{input_dir}\", \"{input_filename}\", \"{face_matrix_file}\", \"{face_quality_file}\")'], capture_output=True)
