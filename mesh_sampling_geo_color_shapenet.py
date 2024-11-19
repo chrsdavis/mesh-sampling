@@ -159,7 +159,10 @@ def sample_mesh(input_filepath, n, occlusion_threshold, output_dir, current_dir,
 	print(f'Cur dir: {current_dir}; in dir: {input_dir}; in file: {input_filename}')
 
 	#Load mesh and compute ambiance occlusion 
-	subprocess.run(['python', '-c', f'from mesh_sampling_geo_color_shapenet import get_mesh_arrays; get_mesh_arrays(\"{input_dir}\", \"{input_filename}\", \"{face_matrix_file}\", \"{face_quality_file}\")'], capture_output=True)
+	res = subprocess.run(['python', '-c', f'from mesh_sampling_geo_color_shapenet import get_mesh_arrays; get_mesh_arrays(\"{input_dir}\", \"{input_filename}\", \"{face_matrix_file}\", \"{face_quality_file}\")'], capture_output=True)
+ 
+	print(f'RES out: {res.stdout}')
+	print(f'RES err: {res.stderr}')
 
 	os.chdir(input_dir)
 
