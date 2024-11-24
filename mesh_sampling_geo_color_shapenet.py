@@ -240,7 +240,7 @@ def sample_mesh(input_filepath, n, occlusion_threshold, output_dir, current_dir,
 	sampled_mesh_filename = f"sampled_mesh_{n}.ply"
 	sampled_mesh_filepath = os.path.join(output_dir, sampled_mesh_filename)
 
-	os.popen(f"{cloudcompare_bin_path} -AUTO_SAVE OFF -C_EXPORT_FMT PLY -O {mesh_clean_filepath} -SAMPLE_MESH POINTS {target_points} -SAVE_CLOUDS").read()
+	os.popen(f"{cloudcompare_bin_path} -SILENT -AUTO_SAVE OFF -C_EXPORT_FMT PLY -O {mesh_clean_filepath} -SAMPLE_MESH POINTS {target_points} -SAVE_CLOUDS").read()
 
 	#Get name of the point cloud saved by CloudCompare and rename it to defined name
 	cloudcompare_pc_path = [x for x in glob.glob(os.path.join(obj_dir, "*.ply")) if "SAMPLED_POINTS" in os.path.split(x)[1]][0]
@@ -272,7 +272,6 @@ def sample_mesh(input_filepath, n, occlusion_threshold, output_dir, current_dir,
 def run(args):
 
 	print("Starting mesh sampling...")
-
 	mesh_pc_correspondance, exceptions = sample_mesh_set(args.input_glob, args.output_dir, args.occlusion_threshold, 
 		args.target_points, args.resolution, args.remove_intermediate_files, args.cloudcompare_bin_path)
 
@@ -293,8 +292,8 @@ if __name__ == "__main__":
 	
 	parser = argparse.ArgumentParser(prog='mesh_sampling_geo_color.py', description='Samples color and geometry from meshes using random sampling and voxelizes the generated point clouds into a regular grid.',
 									 formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-	parser.add_argument('input_glob', help='Pattern for input meshes.')
-	parser.add_argument('output_dir', help='Output directory for saving sampled point clouds.')
+	parser.add_argument('--input_glob', help='Pattern for input meshes.')
+	parser.add_argument('--output_dir', help='Output directory for saving sampled point clouds.')
 	parser.add_argument('--target_points', help='Number of points sampled before voxelization.', type=int, default=10000000)
 	parser.add_argument('--resolution', help='Resolution for voxelization.', type=int,default=1024)
 	parser.add_argument('--occlusion_threshold', help='Minimum accepted occlusion value for sampled faces.', type=float,default=0)
